@@ -1,0 +1,45 @@
+<body>
+    <head>
+      <script>
+        async function fetchFileContent(fileURL) {
+          try {
+            let response = await fetch(fileURL);
+            if (!response.ok) {
+              throw new Error(`Failed to fetch file: ${response.status} ${response.statusText}`);
+            }
+            return response.text();
+          } catch (error) {
+            console.error('Error fetching file:', error);
+            throw error;
+          }
+        }
+  
+        function findIndexInArray(arr, targetValue) {
+          for (let i = 0; i < arr.length; i++) {
+            if (arr[i].code == targetValue) {
+              return i;
+            }
+          }
+          return null;
+        }
+  
+        // Example usage:
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        (async () => {
+          try {
+            let shortlinks = JSON.parse(await fetchFileContent('https://raw.githubusercontent.com/Shall0e/shall0e.github.io/main/shortlink.json'));
+            if (findIndexInArray(shortlinks, Array.from(urlSearchParams.keys())[0]) !== null) {
+              window.location.href = encstr(shortlinks[temp].url,Array.from(urlSearchParams.keys())[0])
+              window.close
+            } else {
+              window.location.href = 'https://shall0e.github.io'
+              window.close
+            }
+          } catch (error) {
+            window.location.href = 'https://shall0e.github.io/shortURL'
+          }
+        })();
+      </script>
+    </head>
+  </body>
+  
