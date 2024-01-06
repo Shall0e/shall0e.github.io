@@ -443,7 +443,7 @@ function showTooltip(element, message) {
         <p style="padding-top: 20px; padding-bottom: 10px;">Generate a FREE short-link, no sign up required!</p>
         <input type="text" id="a" name="a" placeholder="Redirect Code (A unique code for your redirect.)"><br>
         <input type="text" id="b" name="b" placeholder="Redirect URL (Where the site will go.)"><br>
-        <button onclick="(registerNewCode(document.getElementById('a').value,document.getElementById('b').value));">Generate Short URL</button>
+        <button onclick="navigator.clipboard.writeText(registerNewCode(document.getElementById('a').value,document.getElementById('b').value));">Generate Short URL</button>
     </div>
     
     <style>
