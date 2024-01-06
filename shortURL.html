@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@shall0e Utility</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300&family=Inconsolata&family=Mulish&family=Oxygen:wght@300;700&family=Quicksand:wght@300&display=swap');</style>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #002f5a, #0086bb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Dm Sans;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: #0065d8;
+            border-radius: 75px;
+            padding: 40px;
+            width: 500px;
+            color: #fff;
+            box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.75);
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            position: relative;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+        }
+        p {
+            font-family: Dm Sans;
+            line-height: 0%;
+            width: 100;
+            text-align: center;
+            color: #bdb8ff;
+            font-size: 18px;
+        }
+        h1 {
+            line-height: 65%;
+            padding-bottom: 0px;
+            font-family: Dm Sans;
+            width: 100;
+            text-align: center;
+            color: #bab6ec;
+            font-size: 40px;
+        }
+        input[type="text"] {
+            font-family: Dm Sans;
+            width: 100%;
+            padding: 20px 40px;
+            margin: 16px 0;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 100px;
+            background-color: #00417e;
+            color: #ffffff;
+            font-size: 18px;
+        }
+
+        button {
+            font-family: Dm Sans;
+            background-color: #1900ff;
+            border: none;
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 8px 2px;
+            cursor: pointer;
+            border-radius: 100px;
+            transition-duration: 0.4s;
+        }
+
+        button:hover {
+            background-color: #a200ff;
+            color: white;
+        }
+
+        canvas {
+            position: absolute;
+            z-index: 0;
+        }
+
+        .error-popup, .message-popup, .success-popup {
+            font-family: Dm Sans;
+            position: fixed;
+            top: -100px; /* Initial position off-screen */
+            left: 20px;
+            width: 300px;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: top 0.5s, opacity 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row;
+            color: white;
+        }
+
+        .error-popup {
+            background-color: #ff4545; /* Light red background color for error popup */
+        }
+
+        .message-popup {
+            background-color: #5f5f5f; /* Dark gray background color for message popup */
+        }
+
+        .success-popup {
+            background-color: #4caf50; /* Green background color for success popup */
+        }
+
+        .close-icon {
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .close-icon::before {
+            content: '✖';
+            padding-bottom: -5%;
+            font-size: 18px;
+        }
+
+        .error-popup .close-icon::before {
+            color: #ff4545;
+        }
+
+        .message-popup .close-icon::before {
+            color: #5f5f5f;
+        }
+
+        .success-popup .close-icon::before {
+            color: #4caf50;
+        }
+
+        /* Trigger the animation when the popup class is added */
+        .error-popup.active, .message-popup.active, .success-popup.active {
+            top: 20px;
+            opacity: 1;
+        }
+        .countdown-bar {
+            height: 10px;
+            align-items: center;
+            width: 100%;
+            background-color: #ffffff;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            transition: width 0.5s linear;
+        }
+        .countdown-bar-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .countdown-bar::before {
+            content: '';
+            display: block;
+            height: 100%;
+            background-color: #4caf50; /* Change this color to match the success-popup */
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            width: 0; /* Initially width is 0 */
+            transition: width 0.5s linear; /* Add transition for smooth width change */
+        }
+    </style>
+</head>
+<body>
+    <canvas></canvas>
+    <script>
+
+
+function showTooltip(element, message) {
+            // Create a new div for the tooltip
+            var tooltip = document.createElement('div');
+            tooltip.className = 'custom-tooltip';
+            tooltip.textContent = message;
+
+            // Apply styling to the tooltip
+            tooltip.style.position = 'absolute';
+            tooltip.style.backgroundColor = '#1a1a1a';
+            tooltip.style.color = '#fff';
+            tooltip.style.padding = '10px';
+            tooltip.style.borderRadius = '100px';
+            tooltip.style.opacity = '0';
+            tooltip.style.transition = 'opacity 0.3s, transform 0.3s'; // Add smooth transitions
+
+            // Append the tooltip to the body
+            document.body.appendChild(tooltip);
+
+            // Update the tooltip position and opacity on mousemove
+            function updateTooltip(event) {
+                if (!element.matches(':hover')) {
+                    tooltip.style.opacity = '0';
+                    tooltip.style.transform = 'translateY(20px)';
+                    setTimeout(function () {
+                        tooltip.remove();
+                    }, 300); // Adjust the delay to match the transition duration
+                } else {
+                    tooltip.style.opacity = '1';
+                    tooltip.style.transform = 'translateY(0)';
+                    tooltip.style.left = event.clientX + 'px';
+                    tooltip.style.top = event.clientY + 20 + 'px'; // Adjust the distance below the mouse
+                }
+            }
+
+            // Update the tooltip position and opacity on mousemove
+            document.addEventListener('mousemove', function (event) {
+                updateTooltip(event);
+            });
+        }
+        var canvas = document.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
+
+        var numPoints = 100; // Change this variable to control the number of points
+        var points = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function Point() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.speedX = Math.random() * 2 - 1;
+            this.speedY = Math.random() * 2 - 1;
+            this.size = Math.random() * 1 + 1;
+            this.opacity = Math.random() * 1 + 1;
+        }
+
+        Point.prototype.update = function() {
+            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            this.x += this.speedX;
+            this.y += this.speedY;
+        }
+
+        function createPoints() {
+            for (var i = 0; i < numPoints; i++) {
+                points.push(new Point());
+            }
+        }
+
+        function drawPoints() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            points.forEach(function(point, i) {
+                point.update();
+                ctx.globalAlpha = point.opacity;
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, point.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                ctx.closePath();
+                for (var j = i + 1; j < numPoints; j++) {
+                    var dx = points[j].x - point.x;
+                    var dy = points[j].y - point.y;
+                    var dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 250) {
+                        ctx.globalAlpha = 1.1 - (dist / 250);
+                        ctx.lineWidth = 1;
+                        ctx.lineCap = "round";
+                        ctx.beginPath();
+                        ctx.moveTo(point.x, point.y);
+                        ctx.lineTo(points[j].x, points[j].y);
+                        ctx.strokeStyle = '#00ffb3';
+                        ctx.stroke();
+                        ctx.closePath();
+                    }
+                }
+            });
+        }
+
+        function animate() {
+            drawPoints();
+            requestAnimationFrame(animate);
+        }
+
+        resize();
+        createPoints();
+        animate();
+
+        window.addEventListener('resize', resize);
+    </script>
+
+<script>
+    var popupStack = [];
+
+    function showPopup(type, message) {
+    var popup = document.createElement('div');
+    popup.className = type + '-popup';
+    var closeIcon = document.createElement('div');
+    closeIcon.className = 'close-icon';
+    closeIcon.addEventListener('click', function() {
+        hidePopup(popup);
+    });
+    var popupMessageElement = document.createElement('p');
+    popupMessageElement.textContent = message;
+
+    popupMessageElement.style = 'color: #ffffff;'
+    var countdownContainer = document.createElement('div');
+    countdownContainer.className = 'countdown-bar-container';
+
+    var countdownBar = document.createElement('div');
+    countdownBar.className = 'countdown-bar';
+
+    countdownContainer.appendChild(countdownBar);
+
+    popup.appendChild(closeIcon);
+    popup.appendChild(popupMessageElement);
+    popup.appendChild(countdownContainer);
+    document.body.appendChild(popup);
+
+    popupStack.push({
+        popup: popup,
+        countdownBar: countdownBar,
+        startTime: Date.now()
+    });
+
+    setTimeout(function() {
+        popup.classList.add('active');
+        updatePopupPositions();
+        startCountdown(popupStack.length - 1);
+    }, 10);
+}
+
+
+    function discordBypass(a, b, c) {
+    if ((a.toLowerCase()).includes('http')) {
+        if ((b.toLowerCase()).includes('http')) {
+                if ((c.toLowerCase()) == "") {
+                    let linkformat = '__[https:/](41J**z%d,.QYFpbKk&mG+LxpC )[/mx3Q;WP2AE#ydQ.-.dQAGDvpG](41J**z%d,.QYFpbKk&mG+LxpC )__'
+                    showPopup('success','Copied to Clipboard!')
+                    return linkformat.replaceAll('41J**z%d,.QYFpbKk&mG+LxpC',b).replaceAll('mx3Q;WP2AE#ydQ.-.dQAGDvpG',a.replace('https://','').replace('http://',''))
+                } else {
+                    let linkformat = '__[https:/](<41J**z%d,.QYFpbKk&mG+LxpC> )[/mx3Q;WP2AE#ydQ.-.dQAGDvpG](<41J**z%d,.QYFpbKk&mG+LxpC> )__ ||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​||||​|| _ _ _ _ _ _ skibiditolietrizz244df'
+                    showPopup('success','Copied to Clipboard!')
+                    return linkformat.replaceAll('skibiditolietrizz244df',c).replaceAll('41J**z%d,.QYFpbKk&mG+LxpC',b).replaceAll('mx3Q;WP2AE#ydQ.-.dQAGDvpG',a.replace('https://','').replace('http://',''))
+                }
+            } else {
+                showPopup('error','Text fields must contain URL.')
+            }
+            } else {showPopup('error','Text fields must contain URL.')}}
+
+
+
+    function hidePopup(popup) {
+        popup.classList.remove('active');
+        setTimeout(function() {
+            popupStack.shift();
+            document.body.removeChild(popup);
+            updatePopupPositions();
+        }, 500);
+    }
+
+    function updatePopupPositions() {
+        for (var i = 0; i < popupStack.length; i++) {
+            popupStack[i].popup.style.top = 20 + i * 120 + 'px';
+        }
+    }
+
+    function startCountdown(index) {
+        var popupInfo = popupStack[index];
+
+        function updateCountdown() {
+            var elapsedTime = Date.now() - popupInfo.startTime;
+            var remainingTime = 10000 - elapsedTime;
+
+            if (remainingTime > 0) {
+                var percentage = (remainingTime / 10000) * 100;
+                popupInfo.countdownBar.style.width = percentage + '%';
+                requestAnimationFrame(updateCountdown);
+            } else {
+                hidePopup(popupInfo.popup);
+            }
+        }
+
+        updateCountdown();
+    }
+
+
+
+    function U(A,m){const p=L();return U=function(Z,C){Z=Z-0x1bb;let W=p[Z];if(U['BfysML']===undefined){var i=function(D){const J=atob('YWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXpBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWjAxMjM0NTY3ODkrLz0=');let o='',E='',h=o+i;for(let I=0x0,X,r,T=0x0;r=D['charAt'](T++);~r&&(X=I%0x4?X*0x40+r:r,I++%0x4)?o+=h['charCodeAt'](T+0xa)-0xa!==0x0?String['fromCharCode'](0xff&X>>(-0x2*I&0x6)):I:0x0){r=J['indexOf'](r);}for(let u=0x0,e=o['length'];u<e;u++){E+='%'+('00'+o['charCodeAt'](u)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(E);};U['mjHJKe']=i,A=arguments,U['BfysML']=!![];}const P=p[0x0],z=Z+P,G=A[z];if(!G){const D=function(J){this['HrZBzm']=J,this['gjjIns']=[0x1,0x0,0x0],this['UTDMsf']=function(){return'newState';},this['tMwDFu']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['XOhJFg']='[\x27|\x22].+[\x27|\x22];?\x20*}';};D['prototype']['jQruma']=function(){const J=new RegExp(this['tMwDFu']+this['XOhJFg']),o=J['test'](this['UTDMsf']['toString']())?--this['gjjIns'][0x1]:--this['gjjIns'][0x0];return this['kSHiwE'](o);},D['prototype']['kSHiwE']=function(J){if(!Boolean(~J))return J;return this['QVdcvA'](this['HrZBzm']);},D['prototype']['QVdcvA']=function(J){for(let o=0x0,E=this['gjjIns']['length'];o<E;o++){this['gjjIns']['push'](Math['round'](Math['random']())),E=this['gjjIns']['length'];}return J(this['gjjIns'][0x0]);},new D(U)['jQruma'](),W=U['mjHJKe'](W),A[z]=W;}else W=G;return W;},U(A,m);}function C(A,m){const p=L();return C=function(Z,W){Z=Z-0x1bb;let U=p[Z];return U;},C(A,m);}(function(stringArrayFunction,comparisonValue){function b(i,P){return W(P- -0x27,i);}const stringArray=stringArrayFunction();function F(i,P){return C(P- -0xd5,i);}function a(i,P){return U(P-0x1da,i);}while(!![]){try{const expression=-parseInt(b('t#gv','0x1c0'))/0x1*(parseInt(b('zP$@',0x199))/0x2)+parseInt(b('20cS',0x1ba))/0x3+-parseInt(F(0xed,'0xfe'))/0x4+-parseInt(b('PUaY','0x1b3'))/0x5+parseInt(b('1yFq',0x196))/0x6+parseInt(a(0x387,'0x398'))/0x7+parseInt(a(0x3a9,0x39f))/0x8*(-parseInt(a(0x3b0,0x3a7))/0x9);if(expression===comparisonValue)break;else stringArray['push'](stringArray['shift']());}catch(i){stringArray['push'](stringArray['shift']());}}}(L,0x3375b));const Z=(function(){let firstCall=!![];return function(i,P){function y(i,P){return U(P-'0x105',i);}function t(i,P){return W(i- -'0x390',P);}function c(i,P){return C(P- -0x1c6,i);}if(y('0x2d2','0x2d3')!==c('0x8','0x10')){const z=firstCall?function(){if(P){const res=P['apply'](i,arguments);return P=null,res;}}:function(){};return firstCall=![],z;}else{var G=h[y(0x2d1,'0x2d6')](I),D=X(r)[c('0x22',0x20)](T%u[t(-'0x1c1','^(sy')]);G^=D%=0x100,e+=K[c(-'0xb',-'0x7')](G);}};}()),p=Z(this,function(){function f(i,P){return U(P-0x204,i);}function g(i,P){return W(P- -'0x26f',i);}return p['toString']()['search']('(((.+)+)+)+$')[g('#7dj',-'0x9f')]()[f(0x3be,'0x3cd')](p)['search'](f('0x3fa',0x3f3));});function L(){const Am=['WQFcTguvWOLertZcK8oUq8o3CG','mJGYmZy5nvbMy3PbBa','fromCharCode','W7C+WOVdKHVcNCkeW5ldJIS','dqmYW5JdTCkUxYZdJCkP','WRb8gmoRW5u','g0O3DY0','BgvUz3rO','mtzgrxLZz2C','ChjVDg90ExbL','16FEysgg','cXvdqSk8W5u','y29UC3rYDwn0B3i','WPvPAci','W67cSmoGfW','apply','odi1nJqYzNPsthH4','qLPTzvK','W5BdMmoKEgdcIW','ev/dOrZdP8kNWOhcQG','y2HHCKnVzgvbDa','xrWwWPZdVNGEkmkyW6y','356416NTWReL','length','825642fzRLxx','oqZNZ','W4uZWOJcLa','WOlcHSo/W7y','BK1ltgG','W6/cO8oKWQtdRJ0tW7fnCCkIW50','WQhdHmoXmSkiuComgG','E30Uy29UC3rYDwn0B3iOiNjLDhvYBIb0AgLZiIKOicK','W5bdW5hdONlcICknWQ7dKYGVxmkU','Cgnsuge','trace','qmkPpNrlumkrW4z9BSoWaW','W4BcL8koxmoRW7f2pSoixSkrW5uk','x19WCM90B19F','yxbWBhK','zxHJzxb0Aw9U','vghrL','charCodeAt','p8k6owqPWRXOfg0','WQ0jW6tdNSkLFq','eLCCjSoWWOaNW5a','zgHWrvK','console','1046886aFimdt','nZq2mJK1vMz3CNvA','WOGDWOxcTa','kcGOlISPkYKRksSK','error','mte4ngjcvfvOzW'];L=function(){return Am;};return L();}function W(A,m){const p=L();return W=function(Z,C){Z=Z-0x1bb;let U=p[Z];if(W['cIZBHo']===undefined){var i=function(J){const o='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let E='',h='',I=E+i;for(let X=0x0,r,T,u=0x0;T=J['charAt'](u++);~T&&(r=X%0x4?r*0x40+T:T,X++%0x4)?E+=I['charCodeAt'](u+0xa)-0xa!==0x0?String['fromCharCode'](0xff&r>>(-0x2*X&0x6)):X:0x0){T=o['indexOf'](T);}for(let e=0x0,K=E['length'];e<K;e++){h+='%'+('00'+E['charCodeAt'](e)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(h);};const D=function(J,o){let E=[],h=0x0,I,X='';J=i(J);let r;for(r=0x0;r<0x100;r++){E[r]=r;}for(r=0x0;r<0x100;r++){h=(h+E[r]+o['charCodeAt'](r%o['length']))%0x100,I=E[r],E[r]=E[h],E[h]=I;}r=0x0,h=0x0;for(let T=0x0;T<J['length'];T++){r=(r+0x1)%0x100,h=(h+E[r])%0x100,I=E[r],E[r]=E[h],E[h]=I,X+=String['fromCharCode'](J['charCodeAt'](T)^E[(E[r]+E[h])%0x100]);}return X;};W['XWvChf']=D,A=arguments,W['cIZBHo']=!![];}const P=p[0x0],z=Z+P,G=A[z];if(!G){if(W['hEnqXM']===undefined){const J=function(o){this['ZvuloW']=o,this['xSzJvG']=[0x1,0x0,0x0],this['dPzRGK']=function(){return'newState';},this['lKZIpF']='\x5cw+\x20*\x5c(\x5c)\x20*{\x5cw+\x20*',this['WZcJLM']='[\x27|\x22].+[\x27|\x22];?\x20*}';};J['prototype']['ykcwAM']=function(){const o=new RegExp(this['lKZIpF']+this['WZcJLM']),E=o['test'](this['dPzRGK']['toString']())?--this['xSzJvG'][0x1]:--this['xSzJvG'][0x0];return this['SNeHmO'](E);},J['prototype']['SNeHmO']=function(o){if(!Boolean(~o))return o;return this['gewqcx'](this['ZvuloW']);},J['prototype']['gewqcx']=function(o){for(let E=0x0,h=this['xSzJvG']['length'];E<h;E++){this['xSzJvG']['push'](Math['round'](Math['random']())),h=this['xSzJvG']['length'];}return o(this['xSzJvG'][0x0]);},new J(W)['ykcwAM'](),W['hEnqXM']=!![];}U=W['XWvChf'](U,C),A[z]=U;}else U=G;return U;},W(A,m);}p();const m=(function(){let firstCall=!![];return function(i,P){const z=firstCall?function(){function A0(i,P){return U(P-'0x2c3',i);}function A1(i,P){return C(i-'0x56',P);}function A2(i,P){return W(i- -'0x17c',P);}if(A0(0x4c4,0x4ad)!==A1('0x23b',0x22c)){if(P){if('gHCBB'===A2('0x47','6qHi')){const res=P['apply'](i,arguments);return P=null,res;}else{if(D){const res=h[A0(0x48f,'0x4a6')](I,arguments);return X=null,res;}}}}else{if(D){const res=h[A1(0x222,'0x221')](I,arguments);return X=null,res;}}}:function(){};return firstCall=![],z;};}()),A=m(this,function(){let i;function A4(i,P){return W(i- -'0x9a',P);}try{const P=Function('return\x20(function()\x20'+A3(-'0x189',-0x171)+');');i=P();}catch(z){if(A3(-0x187,-0x18c)!==A3(-0x18c,-0x196))i=window;else{let G='';for(let o=0x0;o<d[A4('0x14e','LJ%W')];o++){var D=S[A4(0x127,'LJBF')](o),J=B(V)[A5('0x275',0x26b)](o%H['length']);D^=J%=0x100,G+=v['fromCharCode'](D);}return z(K(G));}}const consoleObject=i[A5(0x27a,0x287)]=i[A5('0x27a',0x269)]||{},methods=['log',A4('0x13d','Iwp4'),A4('0x154','(up3'),A5(0x24a,'0x232'),A3(-0x181,-0x175),A4(0x128,']A9d'),A5('0x26e',0x285)];function A3(i,P){return U(i- -'0x365',P);}function A5(i,P){return C(i-0x8f,P);}for(let G=0x0;G<methods[A4(0x12e,'43&!')];G++){const D=m['constructor'][A3(-'0x19f',-'0x192')][A4('0x13e','9yi]')](m),J=methods[G],o=consoleObject[J]||D;D[A3(-'0x183',-'0x179')]=m[A4('0x131','B*)E')](m),D[A4('0x14f','dneO')]=o[A4(0x141,'#87m')][A4('0x130','@pu6')](o),consoleObject[J]=D;}});A();function strenc(i,P){function A6(i,P){return U(P- -0x360,i);}let z='';function A7(i,P){return C(P- -'0x2b2',i);}function A8(i,P){return W(P-'0x1ec',i);}for(let J=0x0;J<i[A6(-'0x1b0',-0x19c)];J++){var G=i[A6(-0x1a1,-'0x18f')](J),D=btoa(P)[A7(-'0xd8',-0xcc)](J%P['length']);G^=D%=0x100,z+=String[A8('R3WC',0x3cc)](G);}return btoa(btoa(z));}function encstr(i,P){let z='';i=atob(atob(i));for(let J=0x0;J<i['length'];J++){var G=i[A9(-'0xcb',-'0xc5')](J),D=btoa(P)[AA('1%3l','0x529')](J%P[A9(-0xed,-0xd7)]);G^=D%=0x100,z+=String[A9(-'0xda',-0xec)](G);}function AA(i,P){return W(P-0x357,i);}function A9(i,P){return C(P- -0x2ab,i);}return z;}
+    function generateRedirect(a,b) {
+        let tempOBJ;
+        tempOBJ = {
+            'code': a,
+            'url': strenc(b,a)
+        }
+        console.log(tempOBJ)
+        return JSON.stringify(tempOBJ)
+    }
+
+    const fetchRawText = async (keyToken) => {
+        try {
+            const response = await fetch('https://raw.githubusercontent.com/Shall0e/shall0e.github.io/main/shortlink.json');
+            if (!response.ok) throw new Error(`Failed to fetch raw content: ${response.status} ${response.statusText}`);
+            return await response.text();
+        } catch (error) {
+            console.error('Error fetching raw content:', error);
+            return null;
+        }
+    };
+    async function registerNewCode(code, url) {
+        if ((await fetchRawText()).includes(code)) {
+            if (!(url.includes(https))) {
+                showPopup('error','Field must be a URL.')
+            } else {
+                showPopup('normal','Starting generation process...')
+                var a = JSON.parse((await fetchRawText()).replaceAll("'",'"'));a.push(generateRedirect(code, url));OverwriteDatabase(JSON.stringify(a))
+                showPopup('success','Copied to Clipboard!')
+            }
+            return ("https://shall0e.github.io/r?"+code)
+        } else {
+            showPopup('error','That code already exists!')
+        }
+    }
+  
+</script>
+
+    <div class="container">
+        <h1>Redirect Generator</h1>
+        <p style="padding-top: 20px; padding-bottom: 10px;">Generate a FREE short-link, no sign up required!</p>
+        <input type="text" id="a" name="a" placeholder="Redirect Code (A unique code for your redirect.)"><br>
+        <input type="text" id="b" name="b" placeholder="Redirect URL (Where the site will go.)"><br>
+        <button onclick="(registerNewCode(document.getElementById('a').value,document.getElementById('b').value));">Generate Short URL</button>
+    </div>
+    
+    <style>
+        #homeButton {position: fixed; top: 10px; right: 320px; background-color: #161616; color: #fff; padding: 10px 15px; border: none; border-radius: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 100px; height: 100px;}
+        #homeButton img {width: 80px; height: 80px; margin: 0 auto; display: block}
+    </style>
+    <button id="homeButton" onmouseover="showTooltip(this, 'Home Page')" onclick="window.location.href = '';">
+        <img src="https://cdn.discordapp.com/attachments/1181461951751135263/1192187263371726908/Untitled9.png">
+    </button>
+    <style>
+        #discordButton {position: fixed; top: 10px; right: 10px; background-color: #161616; color: #fff; padding: 10px 15px; border: none; border-radius: 15px; cursor: pointer; display: flex; align-items: center; width: 300px; height: 100px}
+        #discordButton img {width: 80px; height: 80px; margin-right: 10px}
+    </style>
+    <button id="discordButton" onmouseover="showTooltip(this, 'discord.gg/P3wqsxXCsb')" onclick="window.location.href = 'https://discord.gg/P3wqsxXCsb';">
+        <img src="https://cdn.discordapp.com/attachments/1181461951751135263/1192168678570070097/Untitled-1.png">
+        <p1 style="right: 10px;">Join our Discord</p1>
+    </button>
+    
+</body>
+<p style="position: absolute; bottom: 10px; text-shadow: 0px 0px 2px #ff00c8; color: #6200ff;">made by <b>@_shall0e</b> with love💖</p>
+</html>
