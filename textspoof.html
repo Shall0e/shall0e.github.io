@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<title>TextSpoof | @shall0e</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Text Filter Spoofer | @shall0e Utility" />
+<meta property="og:description" content="Uses homoglyphs to bypass filters on sites!" />
+<meta content="https://cdn.discordapp.com/attachments/1181461951751135263/1204968289365917766/image.png" property="og:image">
+<meta name="twitter:card" content="summary_large_image">
+<script>
+    document.write('<meta property="og:url" content="' + window.location.href + '" />');
+</script>
+
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300&family=Inconsolata&family=Mulish&family=Oxygen:wght@300;700&family=Quicksand:wght@300&display=swap');
+    </style>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #38e48e, #004433);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Dm Sans;
+            overflow: hidden;
+        }
+
+        .container {
+            background-color: #007c3e;
+            border-radius: 75px;
+            padding: 40px;
+            width: 500px;
+            color: #fff;
+            box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.75);
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+            position: relative;
+        }
+
+        .container:hover {
+            transform: scale(1.05);
+        }
+
+        p {
+            font-family: Dm Sans;
+            line-height: 0%;
+            width: 100;
+            text-align: center;
+            color: #15ff00;
+            font-size: 18px;
+        }
+
+        h1 {
+            line-height: 65%;
+            padding-bottom: 0px;
+            font-family: Dm Sans;
+            width: 100;
+            text-align: center;
+            color: #3cff00;
+            font-size: 40px;
+        }
+
+        input[type="text"] {
+            font-family: Dm Sans;
+            width: 100%;
+            padding: 20px 40px;
+            margin: 16px 0;
+            box-sizing: border-box;
+            border: none;
+            border-radius: 100px;
+            background-color: #004232;
+            color: #00ff9d;
+            font-size: 18px;
+        }
+
+        button {
+            font-family: Dm Sans;
+            background-color: #4c00ff;
+            border: none;
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 20px;
+            margin: 8px 2px;
+            cursor: pointer;
+            border-radius: 100px;
+            transition-duration: 0.4s;
+        }
+
+        button:hover {
+            background-color: #8200d9;
+            color: white;
+        }
+
+        canvas {
+            position: absolute;
+            z-index: 0;
+        }
+
+        .error-popup,
+        .message-popup,
+        .success-popup {
+            font-family: Dm Sans;
+            position: fixed;
+            top: -100px;
+            /* Initial position off-screen */
+            left: 20px;
+            width: 300px;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: top 0.5s, opacity 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row;
+            color: white;
+        }
+
+        .error-popup {
+            background-color: #ff4545;
+            /* Light red background color for error popup */
+        }
+
+        .message-popup {
+            background-color: #5f5f5f;
+            /* Dark gray background color for message popup */
+        }
+
+        .success-popup {
+            background-color: #4caf50;
+            /* Green background color for success popup */
+        }
+
+        .close-icon {
+            width: 25px;
+            height: 25px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .close-icon::before {
+            content: '✖';
+            padding-bottom: -5%;
+            font-size: 18px;
+        }
+
+        .error-popup .close-icon::before {
+            color: #ff4545;
+        }
+
+        .message-popup .close-icon::before {
+            color: #5f5f5f;
+        }
+
+        .success-popup .close-icon::before {
+            color: #4caf50;
+        }
+
+        /* Trigger the animation when the popup class is added */
+        .error-popup.active,
+        .message-popup.active,
+        .success-popup.active {
+            top: 20px;
+            opacity: 1;
+        }
+
+        .countdown-bar {
+            height: 10px;
+            align-items: center;
+            width: 100%;
+            background-color: #ffffff;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            transition: width 0.5s linear;
+        }
+
+        .countdown-bar-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .countdown-bar::before {
+            content: '';
+            display: block;
+            height: 100%;
+            background-color: #4caf50;
+            /* Change this color to match the success-popup */
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            width: 0;
+            /* Initially width is 0 */
+            transition: width 0.5s linear;
+            /* Add transition for smooth width change */
+        }
+    </style>
+</head>
+
+<body>
+    <canvas></canvas>
+    <script>
+
+
+        function showTooltip(element, message) {
+            // Create a new div for the tooltip
+            var tooltip = document.createElement('div');
+            tooltip.className = 'custom-tooltip';
+            tooltip.textContent = message;
+
+            // Apply styling to the tooltip
+            tooltip.style.position = 'absolute';
+            tooltip.style.backgroundColor = '#1a1a1a';
+            tooltip.style.color = '#fff';
+            tooltip.style.padding = '10px';
+            tooltip.style.borderRadius = '100px';
+            tooltip.style.opacity = '0';
+            tooltip.style.transition = 'opacity 0.3s, transform 0.3s'; // Add smooth transitions
+
+            // Append the tooltip to the body
+            document.body.appendChild(tooltip);
+
+            // Update the tooltip position and opacity on mousemove
+            function updateTooltip(event) {
+                if (!element.matches(':hover')) {
+                    tooltip.style.opacity = '0';
+                    tooltip.style.transform = 'translateY(20px)';
+                    setTimeout(function () {
+                        tooltip.remove();
+                    }, 300); // Adjust the delay to match the transition duration
+                } else {
+                    tooltip.style.opacity = '1';
+                    tooltip.style.transform = 'translateY(0)';
+                    tooltip.style.left = event.clientX + 'px';
+                    tooltip.style.top = event.clientY + 20 + 'px'; // Adjust the distance below the mouse
+                }
+            }
+
+            // Update the tooltip position and opacity on mousemove
+            document.addEventListener('mousemove', function (event) {
+                updateTooltip(event);
+            });
+        }
+        var canvas = document.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
+
+        var numPoints = 250; // Change this variable to control the number of points
+        var points = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function Point() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.speedX = Math.random() * 2 - 1;
+            this.speedY = Math.random() * 2 - 1;
+            this.size = Math.random() * 1 + 1;
+            this.opacity = Math.random() * 1 + 1;
+        }
+
+        Point.prototype.update = function () {
+            if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+            if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            this.x += this.speedX;
+            this.y += this.speedY;
+        }
+
+        function createPoints() {
+            for (var i = 0; i < numPoints; i++) {
+                points.push(new Point());
+            }
+        }
+
+        function drawPoints() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            points.forEach(function (point, i) {
+                point.update();
+                ctx.globalAlpha = point.opacity;
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, point.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+                ctx.closePath();
+                for (var j = i + 1; j < numPoints; j++) {
+                    var dx = points[j].x - point.x;
+                    var dy = points[j].y - point.y;
+                    var dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        ctx.globalAlpha = 1.1 - (dist / 150);
+                        ctx.lineWidth = 1;
+                        ctx.lineCap = "round";
+                        ctx.beginPath();
+                        ctx.moveTo(point.x, point.y);
+                        ctx.lineTo(points[j].x, points[j].y);
+                        ctx.strokeStyle = '#03fc49';
+                        ctx.stroke();
+                        ctx.closePath();
+                    }
+                }
+            });
+        }
+
+        function animate() {
+            drawPoints();
+            requestAnimationFrame(animate);
+        }
+
+        resize();
+        createPoints();
+        animate();
+
+        window.addEventListener('resize', resize);
+    </script>
+
+    <script>
+        var popupStack = [];
+
+        function showPopup(type, message) {
+            var popup = document.createElement('div');
+            popup.className = type + '-popup';
+            var closeIcon = document.createElement('div');
+            closeIcon.className = 'close-icon';
+            closeIcon.addEventListener('click', function () {
+                hidePopup(popup);
+            });
+            var popupMessageElement = document.createElement('p');
+            popupMessageElement.textContent = message;
+
+            popupMessageElement.style = 'color: #ffffff;'
+            var countdownContainer = document.createElement('div');
+            countdownContainer.className = 'countdown-bar-container';
+
+            var countdownBar = document.createElement('div');
+            countdownBar.className = 'countdown-bar';
+
+            countdownContainer.appendChild(countdownBar);
+
+            popup.appendChild(closeIcon);
+            popup.appendChild(popupMessageElement);
+            popup.appendChild(countdownContainer);
+            document.body.appendChild(popup);
+
+            popupStack.push({
+                popup: popup,
+                countdownBar: countdownBar,
+                startTime: Date.now()
+            });
+
+            setTimeout(function () {
+                popup.classList.add('active');
+                updatePopupPositions();
+                startCountdown(popupStack.length - 1);
+            }, 10);
+        }
+
+        function hidePopup(popup) {
+            popup.classList.remove('active');
+            setTimeout(function () {
+                popupStack.shift();
+                document.body.removeChild(popup);
+                updatePopupPositions();
+            }, 500);
+        }
+
+        function updatePopupPositions() {
+            for (var i = 0; i < popupStack.length; i++) {
+                popupStack[i].popup.style.top = 20 + i * 120 + 'px';
+            }
+        }
+
+        function startCountdown(index) {
+            var popupInfo = popupStack[index];
+
+            function updateCountdown() {
+                var elapsedTime = Date.now() - popupInfo.startTime;
+                var remainingTime = 10000 - elapsedTime;
+
+                if (remainingTime > 0) {
+                    var percentage = (remainingTime / 10000) * 100;
+                    popupInfo.countdownBar.style.width = percentage + '%';
+                    requestAnimationFrame(updateCountdown);
+                } else {
+                    hidePopup(popupInfo.popup);
+                }
+            }
+
+            updateCountdown();
+        }
+
+        function textBypass(str) {
+            if (a !== '') {
+                let v1bypass = {
+                    "A": "ΑА",
+                    "B": "ΒВ",
+                    "E": "ΕЕ",
+                    "H": "ΗН",
+                    "J": "Ј",
+                    "K": "ᏦⲔ",
+                    "M": "ΜМ",
+                    "N": "Ν",
+                    "P": "ΡР",
+                    "S": "Ѕ",
+                    "X": "ΧХ",
+                    "Y": "Υ",
+                    "Z": "Ζ",
+                    "a": "а",
+                    "c": "с",
+                    "d": "ԁ",
+                    "e": "е",
+                    "h": "հ",
+                    "p": "р",
+                    "q": "ԛ",
+                    "v": "ν",
+                    "x": "х",
+                    "y": "у"
+                }
+                let tempstr = ''
+                for (let char of str) {
+                    if (char in v1bypass) {
+                        tempstr = tempstr + (v1bypass[char])[Math.floor(Math.random() * v1bypass[char].length)] + "‌‍​"
+                    } else {
+                        tempstr = tempstr + char + "‌‍​"
+                    }
+                }
+                showPopup('success','Copied to Clipboard!')
+                return tempstr
+
+            } else {
+                showPopup('error', 'Text fields must contain URL.')
+            }
+        }
+    </script>
+
+    <div class="container">
+        <h1>Text Spoofer</h1>
+        <h1>Filter Bypass</h1>
+        <p style="padding-top: 20px; padding-bottom: 10px;">Use Homoglyphs to spoof text on sites with text filters.</p>
+        <input type="text" id="a" name="a" placeholder="Original Text"><br>
+        <div style="display: flex; justify-content: center;">
+            <button onclick="navigator.clipboard.writeText(textBypass(document.getElementById('a').value));">Copy Spoofed Text</button>
+        </div>
+    </div>
+
+    <style>
+        #homeButton {
+            position: fixed;
+            top: 10px;
+            right: 320px;
+            background-color: #161616;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;
+            height: 100px;
+        }
+
+        #homeButton img {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+            display: block
+        }
+    </style>
+    <button id="homeButton" onmouseover="showTooltip(this, 'Home Page')" onclick="window.location.href = 'https://shall0e.github.io/';">
+        <img src="https://cdn.discordapp.com/attachments/1181461951751135263/1192187263371726908/Untitled9.png">
+    </button>
+    <style>
+        #discordButton {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #161616;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            width: 300px;
+            height: 100px
+        }
+
+        #discordButton img {
+            width: 80px;
+            height: 80px;
+            margin-right: 10px
+        }
+    </style>
+    <button id="discordButton" onmouseover="showTooltip(this, 'discord.gg/P3wqsxXCsb')"
+        onclick="window.location.href = 'https://discord.gg/P3wqsxXCsb';">
+        <img src="https://cdn.discordapp.com/attachments/1181461951751135263/1192168678570070097/Untitled-1.png">
+        <p1 style="right: 10px;">Join our Discord</p1>
+    </button>
+
+</body>
+<p style="position: absolute; bottom: 10px; text-shadow: 0px 0px 2px #ff00c8; color: #6200ff;">made by <b>@_shall0e</b>
+    with love💖</p>
+
+</html>
