@@ -3,14 +3,77 @@ body {
     padding: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(135deg, #0a0a0a 0%, #222222 100%);
+    background-size: 400% 400%;
+    background-attachment: fixed;
     /* Gradient background */
     color: #fff;
     /* white text color */
+    overflow: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     overflow: hidden;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+.wave {
+    background: rgb(255, 255, 255);
+    border-radius: 1000% 1000% 0 0;
+    position: fixed;
+    width: 200%;
+    height: 12em;
+    animation: wave 10s -3s linear infinite;
+    transform: translate3d(0, 0, 0);
+    opacity: 0.01;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.wave:nth-of-type(2) {
+    bottom: -1.25em;
+    animation: wave 18s linear reverse infinite;
+    opacity: 0.01;
+}
+
+.wave:nth-of-type(3) {
+    bottom: -2.5em;
+    animation: wave 20s -1s reverse infinite;
+    opacity: 0.01;
+}
+
+@keyframes wave {
+    2% {
+        transform: translateX(1);
+    }
+
+    25% {
+        transform: translateX(-25%);
+    }
+
+    50% {
+        transform: translateX(-50%);
+    }
+
+    75% {
+        transform: translateX(-25%);
+    }
+
+    100% {
+        transform: translateX(1);
+    }
 }
 
 h1 {
@@ -41,13 +104,14 @@ p {
 }
 
 .button {
+    font-family: 'Red Hat Display';
     background-color: transparent; /* Transparent background */
     border: 2px solid #fff; /* White border */
     color: white;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 80%;
     margin-bottom: 10px; /* Space between buttons */
     cursor: pointer;
     border-radius: 0px;
@@ -57,6 +121,34 @@ p {
 .button:hover {
     background: rgba(255, 255, 255, 0.1); /* White with 10% opacity */
 }
+
+input {
+    width: 80%;
+    height: 50px;
+    margin: 5px;
+    border-radius: 10px;
+    border: transparent;
+    background-color: #0a0a0a25
+}
+
+.popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .error {
+    background-color: #ff3333;
+  }
+  
+  .success {
+    background-color: #33cc33;
+  }
 
 .button-container {
     position: fixed;
@@ -82,13 +174,14 @@ p {
     border-radius: 9999px;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease-in-out;
 }
 
 .home-button:hover {
     position: fixed;
     top: 20px;
     left: 20px;
-    width: 150px;
+    width: 200px;
     height: 80px;
     background: rgba(255, 255, 255, 0.1); /* White with 10% opacity */
 }
