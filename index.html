@@ -17,22 +17,18 @@
   <div class="content">
     <img onclick="window.location.href='https://discord.gg/TC88fMrbTE'" style="border-radius: 512px" src="profile.jpg" width="30%" height="30%"></img>
     <h1>@shall0e utility</h1>
-    <p style="font-size: 20px; margin: auto; color: #363636">pssssh... to join my discord click the image above this text.</p>
+    <p style="font-size: 20px; margin: auto; color: #363636">psssst... to join my discord click the image above this text.</p>
     <p id="randomString"></p>
     <p>Theres some buttons on the left buttom corner, click them!</p>
   </div>
   <div class="button-container">
     <button class="button" onclick="window.location.href = 'hyperlink'" style="background: linear-gradient(135deg, #3700ff, #d400ff);">Discord Fake Links</button>
     <button class="button" onclick="window.location.href = 'textspoof'" style="background: linear-gradient(45deg, #528535, #006eff);">Text Filter Bypass</button>
-    <button class="button">Fake News Generator (CLOSED)</button>
     <button class="button">Redirect Service (CLOSED)</button>
-    <button class="button">???</button>
-    <button class="button">???</button>
   </div>
-  <button wr class="home-button" onclick="window.location.href = 'https://shall0e.github.io/'">🏠</button>
+  <button class="home-button" onclick="window.location.href = 'https://shall0e.github.io/'">🏠</button>
 </body>
 
-</html>
 
 <script>
   function shuffleArray(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]] } return a }
@@ -48,21 +44,22 @@
     "he/him/was/were.",
     "I fw you heavy vro.",
     "R.I.P Pop Smoke and Chief Keef.",
-    "On skibidi, I didn't say the N-word."
+    "On skibidi, ohio gyatt rizz!.",
+    "The world is turning, and I sit on my chair.",
+    "If they stand against you, spit. If they stand behind you, fart.",
+    "@shall0e is the G.O.A.T. (idk what goat means)",
+    "I have 2 wolves inside me, and they won't stop f**king.",
+    "challenge: try to survive jeff the killer at 3 am.",
+    "human detected, laserbeam engaged."
   ];
-  randomStrings = shuffleArray(randomStrings);
+  randomStrings = shuffleArray(shuffleArray(shuffleArray(randomStrings)));
   function generateRandomString() {
     const randomIndex = Math.floor(Math.random() * randomStrings.length);
     return randomStrings[randomIndex];
   }
   var randomStringElement = document.getElementById('randomString');
   randomStringElement.textContent = generateRandomString();
-
-  const homeButton = document.querySelector('.home-button');
-  homeButton.addEventListener('mouseenter', function () {
-    this.textContent = 'Home';
-  });
-  homeButton.addEventListener('mouseleave', function () {
-    this.textContent = '🏠';
-  });
 </script>
+</html>
+
+<script src="default.js"></script>
