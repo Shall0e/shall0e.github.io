@@ -28,6 +28,16 @@ body {
     }
 }
 
+.checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+/* Optional styling for checkbox */
+input[type="checkbox"] {
+    margin-right: 5px; /* Adjust as needed */
+}
+
 .wave {
     background: rgb(255, 255, 255);
     border-radius: 1000% 1000% 0 0;
@@ -78,8 +88,17 @@ body {
 
 h1 {
     font-family: 'Red Hat Display';
-    font-size: 100px;
+    font-size: 450%;
     background: linear-gradient(135deg, #006eff, #d400ff, #ff0000);
+    /* Change color stops as per your preference */
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: auto;
+}
+h2 {
+    font-family: 'Red Hat Display';
+    font-size: 200%;
+    background: linear-gradient(135deg, #ff8800, #ffee00, #ff0000);
     /* Change color stops as per your preference */
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -177,9 +196,34 @@ input {
     transition: all 0.2s ease-in-out;
 }
 
+.about-button {
+    font-size: 40px;
+    position: fixed;
+    top: 110px;
+    left: 20px;
+    z-index: 9999;
+    width: 80px;
+    height: 80px;
+    background-color: #202020;
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease-in-out;
+}
+
 .home-button:hover {
     position: fixed;
     top: 20px;
+    left: 20px;
+    width: 200px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.1); /* White with 10% opacity */
+}
+.about-button:hover {
+    position: fixed;
+    top: 110px;
     left: 20px;
     width: 200px;
     height: 80px;
