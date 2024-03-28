@@ -8,14 +8,14 @@
     href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Sixtyfour&display=swap"
     rel="stylesheet">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=0.5">
   <title>@shall0e utility</title>
   <link rel="stylesheet" href="default.css">
 </head>
 
 <body>
   <div class="content">
-    <img onclick="window.location.href='https://discord.gg/TC88fMrbTE'" style="border-radius: 512px" src="profile.jpg" width="30%" height="30%"></img>
+    <img onclick="window.location.href='https://discord.gg/TC88fMrbTE'" style="border-radius: 512px" src="assets/profile.jpg" width="30%" height="30%"></img>
     <h1>@shall0e utility</h1>
     <p style="font-size: 20px; margin: auto; color: #363636">psssst... to join my discord click the image above this text.</p>
     <p id="randomString"></p>
@@ -27,6 +27,7 @@
     <button class="button">Redirect Service (CLOSED)</button>
   </div>
   <button class="home-button" onclick="window.location.href = 'https://shall0e.github.io/'">🏠</button>
+  <button class="about-button" onclick="window.location.href = 'about'">❔</button>
 </body>
 
 
@@ -41,16 +42,17 @@
     "Changing the world, one tool at a time.",
     "Fancy seeing you 'round these parts.",
     "I don't know much HTML, but doesn't this site look good?",
-    "he/him/was/were.",
+    "he/him/was/were/huh?.",
     "I fw you heavy vro.",
     "R.I.P Pop Smoke and Chief Keef.",
     "On skibidi, ohio gyatt rizz!.",
-    "The world is turning, and I sit on my chair.",
+    "If earth is flat, why are all other planets round?",
     "If they stand against you, spit. If they stand behind you, fart.",
     "@shall0e is the G.O.A.T. (idk what goat means)",
     "I have 2 wolves inside me, and they won't stop f**king.",
-    "challenge: try to survive jeff the killer at 3 am.",
-    "human detected, laserbeam engaged."
+    "CHALLENGE: try to survive jeff the killer at 3 am.",
+    "human detected, laserbeam engaged.",
+    "lebron james hairline."
   ];
   randomStrings = shuffleArray(shuffleArray(shuffleArray(randomStrings)));
   function generateRandomString() {
@@ -60,6 +62,5 @@
   var randomStringElement = document.getElementById('randomString');
   randomStringElement.textContent = generateRandomString();
 </script>
-</html>
-
 <script src="default.js"></script>
+</html>
