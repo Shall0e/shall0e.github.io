@@ -169,6 +169,10 @@ input {
     background-color: #33cc33;
   }
 
+  .default {
+    background-color: #3b3b3b;
+  }
+
 .button-container {
     position: fixed;
     bottom: 0;
@@ -213,6 +217,23 @@ input {
     transition: all 0.2s ease-in-out;
 }
 
+.refer-button {
+    font-size: 40px;
+    position: fixed;
+    top: 200px;
+    left: 20px;
+    z-index: 9999;
+    width: 80px;
+    height: 80px;
+    background-color: #202020;
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease-in-out;
+}
+
 .home-button:hover {
     position: fixed;
     top: 20px;
@@ -224,6 +245,14 @@ input {
 .about-button:hover {
     position: fixed;
     top: 110px;
+    left: 20px;
+    width: 200px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.1); /* White with 10% opacity */
+}
+.refer-button:hover {
+    position: fixed;
+    top: 200px;
     left: 20px;
     width: 200px;
     height: 80px;
