@@ -32,8 +32,6 @@
   <button class="about-button" onclick="window.location.href = 'about'">❔</button>
   <button class="refer-button" onclick="showPopup('default','Use a verified referral link to gain free tokens!')">🌟</button>
 </body>
-
-
 <script>
   function shuffleArray(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]] } return a }
   var randomStrings = [
@@ -41,11 +39,10 @@
     "Your favorite online Discord Predator. (/j)",
     "Making the best online tools for your favorite social medias!",
     'Making the world a "better" place!',
-    "I had a nightmare... Oh wait, I forgot.",
     "Changing the world, one tool at a time.",
     "Fancy seeing you 'round these parts.",
     "I don't know much HTML, but doesn't this site look good?",
-    "he/him/was/were/huh?.",
+    "he/him/was/were/huh?",
     "I fw you heavy vro.",
     "R.I.P Pop Smoke and Chief Keef.",
     "On skibidi, ohio gyatt rizz!.",
@@ -66,4 +63,13 @@
   randomStringElement.textContent = generateRandomString();
 </script>
 <script src="default.js"></script>
+<script>
+const referButton = document.querySelector('.refer-button');
+referButton.addEventListener('mouseenter', function () {
+  this.textContent = 'Codes';
+});
+referButton.addEventListener('mouseleave', function () {
+  this.textContent = '🌟';
+});
+</script>
 </html>
