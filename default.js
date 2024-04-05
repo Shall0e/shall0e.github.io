@@ -14,31 +14,6 @@ aboutButton.addEventListener('mouseleave', function () {
     this.textContent = '❔';
 });
 
-// Fingerprinter v1, April 2nd 2024, @shall0e
-function gatherCharCode(o){let t={};for(let r in o)if(o.hasOwnProperty(r)){let n=o[r];"string"==typeof n?t[r]=Array.from(n).map(o=>o.charCodeAt(0)).join(""):"number"==typeof n?t[r]=n.toString().split("").map(o=>o.charCodeAt(0)).join(""):t[r]=n}return t};
-function getGPUInfo(){var e,t=document.createElement("canvas");try{e=t.getContext("webgl")||t.getContext("experimental-webgl")}catch(e){return null}if(!e)return null;var r=e.getExtension("WEBGL_debug_renderer_info");return r?{vendor:e.getParameter(r.UNMASKED_VENDOR_WEBGL),renderer:e.getParameter(r.UNMASKED_RENDERER_WEBGL)}:null};
-function compressObj(n){let t="";for(let o in n)if(n.hasOwnProperty(o)){let r=n[o];null!==r&&void 0!==r&&(t+=r.toString())}return t};
-async function hash(input) {return (Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',(new TextEncoder()).encode(input)))).map(byte=>byte.toString(16).padStart(2,'0')).join('')).substring(0, 32)};
-function gatherDeviceInfo(){
-	let deviceInfo = {
-	    appName: navigator.appName,
-        browserLanguage: navigator.language,
-        colorDepth: window.screen.colorDepth,
-        CPUCores: navigator.hardwareConcurrency,
-        GPUrenderer: getGPUInfo().renderer,
-        GPUvendor: getGPUInfo().vendor,
-        platform: navigator.platform,
-        productSub: navigator.productSub,
-        userAgent: navigator.userAgent,
-	};
-	return deviceInfo;
-};
-function getFingerprint(){
-    return (hash(compressObj(gatherCharCode(gatherDeviceInfo()))));
-}
-
-
-
 function encodeString(str, key) {
     let encoded = '';
     for (let i = 0; i < str.length; i++) {
@@ -66,16 +41,14 @@ function encodeString(str, key) {
 
 
 
-function discordBypass(a, b, c, d) {
+function discordBypass(a, b, c) {
     if ((a.toLowerCase()).includes('http') && (b.toLowerCase()).includes('http')) {
-        if (d == 1) {
-            if (c == '') {
-                showPopup('success', 'Copied to Clipboard!')
-                return `[ht‌‍​t‌‍​р‌‍​s‌‍​︎‌‍​︎‌‍​️‌‍​:‌‍​︎‌‍​︎‌‍​️‌‍​/‌‍​/‌‍​​${(((a.replace('https://', '')).replace('http://', ''))).replaceAll('.', '‌.‌')}]( ${b} )`
-            } else {
-                showPopup('success', 'Copied to Clipboard!')
-                return `[ht‌‍​t‌‍​р‌‍​s‌‍​︎‌‍​︎‌‍​️‌‍​:‌‍​︎‌‍​︎‌‍​️‌‍​/‌‍​/‌‍​​${(((a.replace('https://', '')).replace('http://', ''))).replaceAll('.', '‌.‌')}]( <${b}> )‌[️]( ${c} )`
-            }
+        if (c == '') {
+            showPopup('success', 'Copied to Clipboard!')
+            return `[ht‌‍​t‌‍​р‌‍​s‌‍​︎‌‍​︎‌‍​️‌‍​:‌‍​︎‌‍​︎‌‍​️‌‍​/‌‍​/‌‍​​${(((a.replace('https://', '')).replace('http://', ''))).replaceAll('.', '‌.‌')}]( ${b} )`
+        } else {
+            showPopup('success', 'Copied to Clipboard!')
+            return `[ht‌‍​t‌‍​р‌‍​s‌‍​︎‌‍​︎‌‍​️‌‍​:‌‍​︎‌‍​︎‌‍​️‌‍​/‌‍​/‌‍​​${(((a.replace('https://', '')).replace('http://', ''))).replaceAll('.', '‌.‌')}]( <${b}> )‌[️]( ${c} )`
         }
     } else {
         showPopup('error', 'Text fields must contain URL.')
@@ -189,9 +162,10 @@ function showPopup(type, message) {
 let fingerprint;
 let userdata;
 document.addEventListener("DOMContentLoaded", async function() {
-    async function getFingerprint() {
-        return hash(compressObj(gatherCharCode(gatherDeviceInfo())));
-    }
+    
+    // identify.js, April 2nd 2024, @shall0e
+    eval(await fetch("https://raw.githubusercontent.com/Shall0e/identifyDOTjs/main/identify.js").then(e=>e.text()))
+    // https://github.com/Shall0e/identifyDOTjs
 
     fingerprint = await getFingerprint();
     if (!localStorage.getItem('userdata')) {
@@ -201,17 +175,17 @@ document.addEventListener("DOMContentLoaded", async function() {
             'token': 20
         }
         showPopup('default', 'Authenticated as '+fingerprint.substring(0,32));
-        localStorage.setItem('userdata',encodeString(JSON.stringify(userdata),navigator.productSub));
+        localStorage.setItem('userdata',encodeString(JSON.stringify(userdata),navigator.storage.estimate()));
     }
 });
 
 setInterval(function(){
     if (localStorage.getItem('userdata')) {
-        userdata = JSON.parse(decodeString(localStorage.getItem('userdata'),navigator.productSub))
+        userdata = JSON.parse(decodeString(localStorage.getItem('userdata'),navigator.storage.estimate()))
         userdata.auth = fingerprint
         userdata.date = Date.now()
-        localStorage.setItem('userdata',encodeString(JSON.stringify(userdata),navigator.productSub));
+        localStorage.setItem('userdata',encodeString(JSON.stringify(userdata),navigator.storage.estimate()));
     } else {
-        localStorage.setItem('userdata',encodeString(JSON.stringify(userdata),navigator.productSub));
+        localStorage.setItem('userdata',encodeString(JSON.stringify(userdata),navigator.storage.estimate()));
     }
 },100)
