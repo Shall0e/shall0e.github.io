@@ -10,25 +10,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
   <title>@shall0e utility</title>
-  <link rel="stylesheet" href="default.css">
+  <link rel="stylesheet" href="/default.css">
 </head>
 
 <body>
   <div class="content">
-    <img onclick="window.location.href='https://discord.gg/TC88fMrbTE'" style="border-radius: 512px" src="assets/profile.jpg" width="30%" height="30%"></img>
+    <img onclick="window.location.href='https://discord.gg/TC88fMrbTE'" style="border-radius: 512px; margin: -20px;" src="/assets/profile_alt.png" width="25%" height="20%"></img>
     <h1>@shall0e utility</h1>
     <p style="font-size: 20px; margin: auto; color: #363636">psssst... to join my discord click the image above this text.</p>
     <p id="randomString"></p>
-    <p>Theres some buttons on the left buttom corner, click them!</p>
-    <br></br>
-    <p><b>April 2nd, 2024: Small Update to TextSpoof, new Token system being tested.</b></p>
+    <p><b>April 9nd, 2024: New UI changes, new tool!</b></p>
   </div>
   <div class="button-container">
-    <button class="button" onclick="window.location.href = 'hyperlink'" style="background: linear-gradient(135deg, #3700ff, #d400ff);">Discord Fake Links</button>
-    <button class="button" onclick="window.location.href = 'textspoof'" style="background: linear-gradient(45deg, #528535, #006eff);">Text Filter Bypass</button>
-    <button class="button" onclick="window.location.href = 'redirect'" style="background: linear-gradient(135deg, #009189, #1900ff);">Redirect URLs</button>
+    <button class="button" onclick="window.location.href = '/tools/hyperlink'" style="background: linear-gradient(135deg, #3700ff, #d400ff);">Discord Fake Links</button>
+    <button class="button" onclick="window.location.href = '/tools/textspoof'" style="background: linear-gradient(45deg, #528535, #006eff);">Text Filter Bypass</button>
+    <button class="button" onclick="window.location.href = '/tools/redirect'" style="background: linear-gradient(135deg, #009189, #1900ff);">Redirect URL</button>
+    <button class="button" onclick="window.location.href = '/tools/verify'" style="background: linear-gradient(135deg, #7e2d2d, #c22222);">Verifier URL</button>
   </div>
-  <button class="home-button" onclick="window.location.href = 'https://shall0e.github.io/'">🏠</button>
+  <button class="home-button" onclick="window.location.href = '/'">🏠</button>
   <button class="about-button" onclick="window.location.href = 'about'">❔</button>
   <button class="refer-button" onclick="showPopup('default','Use a verified referral link to gain free tokens!')">🌟</button>
 </body>
@@ -63,7 +62,7 @@
   randomStringElement.textContent = generateRandomString();
 </script>
 <script src="https://raw.githubusercontent.com/Shall0e/identifyDOTjs/main/identify.js/"></script>
-<script src="default.js"></script>
+<script src="/default.js"></script>
 <script>
 const referButton = document.querySelector('.refer-button');
 referButton.addEventListener('mouseenter', function () {

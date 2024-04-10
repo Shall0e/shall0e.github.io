@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Sixtyfour&display=swap"
+        rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.6">
+    <title>@shall0e utility</title>
+    <link rel="stylesheet" href="/default.css">
+</head>
+
+<div class="wave"></div>
+<div class="wave"></div>
+<div class="wave"></div>
+
+<style>
+    body {
+        background: linear-gradient(45deg, #010046 0%, #5c006e 100%);
+        animation: gradient 5s ease-in-out infinite;
+        background-size: 400% 400%;
+        background-attachment: fixed;
+    }
+</style>
+<body>
+    <div class="content">
+        <h1
+            style="background: linear-gradient(135deg, #3700ff, #ae00ff); background-clip: text; -webkit-text-fill-color: transparent;">
+            Discord Fake Link</h1>
+        <p>Bypass Discord hyperlink protection to post convincing fake links!</p>
+        <div class="container">
+            <input type="text" id="a" name="a" placeholder="Original Link (This link won't be seen.)"><br>
+            <input type="text" id="b" name="b" placeholder="Displayed Link"><br>
+            <input type="text" id="c" name="c" placeholder="Custom Embed (Optional)"><br>
+            <p><b> • V5: Looks exactly like a real link, completely undetected.</b></p>
+            <button style="border: 0; width: 30%; height: 70px; border-radius: 999px; background: linear-gradient(135deg, #3700ff, #ae00ff);" onclick="navigator.clipboard.writeText(discordBypass(document.getElementById('b').value,document.getElementById('a').value,document.getElementById('c').value));">Generate Hyperlink</button>
+        </div>
+    </div>
+    <button class="home-button" onclick="window.location.href = '/'">🏠</button>
+    <button class="about-button" onclick="window.location.href = '/about'">❔</button>
+</body>
+<script src="/default.js"></script>
+</html>

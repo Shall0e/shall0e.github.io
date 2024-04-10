@@ -1,0 +1,27 @@
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&family=Sixtyfour&display=swap"
+        rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.6">
+    <title>Verify - @shall0e</title>
+    <link rel="stylesheet" href="/default.css">
+</head>
+<img style="border-radius: 512px; margin-right: 50;" id="picture" src="" width="300px" height="300px"></img>
+<div>
+<h1 style="font-size: 3em;" id="appname"></h1>
+<p style="margin-left: 0; margin-top: 0;">This app would like you to verify.</p>
+
+<script src="/default.js"></script>
+<script>
+    let params = JSON.parse(decodeString(getSearchParams().id,getSearchParams().d))
+    var picture = document.getElementById('picture')
+    var appname = document.getElementById('appname')
+    picture.src = params.picture
+    appname.innerText = params.appname
+</script>
+
+<button id="redirect" class="button" onclick='window.location.href = params.redirect' style="background: linear-gradient(135deg, #180f9b, #2262c2);">Verifier URL</button>
+</div>
