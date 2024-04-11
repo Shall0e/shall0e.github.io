@@ -160,7 +160,7 @@ function formVerifyLink(appname,picture,redirect) {
     }
 }
 
-if (window.url !== '127.0.0.1:5500' && window.location.href !== 'shall0e.github.io'){
+if (window.location.hostname !== '127.0.0.1:5500' && window.location.hostname !== 'shall0e.github.io'){
     window.location.href = "https://shall0e.github.io/";
 }
 
