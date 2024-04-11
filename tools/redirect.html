@@ -34,13 +34,12 @@
             <input type="text" id="redirect" name="a" placeholder="Redirect Link"><br>
             <p>Advanced Settings (Optional)</p>
             <input type="text" id="eval" name="b" placeholder='Custom JS (Supports APIs!)'><br>
-            <input type="text" id="fakeUrl" name="c" placeholder="Display Site (Only supports non-CORS sites.)"><br>
-            <p><b> • V1: Eval JS, Display different site, and redirect to site.</b></p>
+            <p><b> • V2: fixed.</b></p>
             <button style="border: 0; width: 30%; height: 70px; border-radius: 999px; background: linear-gradient(135deg, #3700ff, #00d9ff);" onclick="navigator.clipboard.writeText(
                 formRedirectLink(
                     document.getElementById('redirect').value,
                     document.getElementById('eval').value,
-                    document.getElementById('fakeUrl').value
+                    ''
                 )
             );">Copy Redirect</button>
         </div>
