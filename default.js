@@ -184,7 +184,7 @@ let fingerprint;
 let userdata;
 let storageQuota
 document.addEventListener("DOMContentLoaded", async function() {
-    storageQuota = (await navigator.storage.estimate()).quota
+    storageQuota = navigator.userAgent
 
     // identify.js, April 2nd 2024, @shall0e
     try{eval(await fetch("https://raw.githubusercontent.com/Shall0e/identifyDOTjs/main/identify.js").then(e=>e.text()))}catch(error){
@@ -195,17 +195,15 @@ document.addEventListener("DOMContentLoaded", async function() {
         async function hash(input) {return (Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',(new TextEncoder()).encode(input)))).map(byte=>byte.toString(16).padStart(2,'0')).join('')).substring(0, 32)};
         async function gatherDeviceInfo(){
 	        let deviceInfo = {
-		        storage: storageQuota,
         	    platform: navigator.platform,
         	    deviceMemory: navigator.deviceMemory,
         	    GPU: navigator.gpu.wgslLanguageFeatures.size,
         	    maxTouchPoints: navigator.maxTouchPoints,
         	    browserLanguage: navigator.language,
-        	    colorDepth: window.screen.colorDepth,
         	    CPUCores: navigator.hardwareConcurrency,
         	    GPUrenderer: getGPUInfo().renderer,
         	    GPUvendor: getGPUInfo().vendor,
-        	    userAgent: navigator.userAgent,
+        	    userAgent: storageQuota
 	        };
 	        return deviceInfo;
         };
