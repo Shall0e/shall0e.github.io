@@ -211,10 +211,10 @@ document.addEventListener("DOMContentLoaded", async function() {
 	        };
 	        return deviceInfo;
         });
-        var getFingerprint=(function(){
+        function getFingerprint(){
 	        return (identifyJS.hash(identifyJS.compressObj(identifyJS.gatherCharCode(identifyJS.gatherDeviceInfo()))));
-        });
-    }
+        };
+    };
     // https://github.com/Shall0e/identifyDOTjs
     function packUserdata(usersys) {
         localStorage.setItem('userdata',encodeString(JSON.stringify(usersys),storageQuota));
