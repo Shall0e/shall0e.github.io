@@ -33,11 +33,6 @@ body {
     align-items: center;
 }
 
-/* Optional styling for checkbox */
-input[type="checkbox"] {
-    margin-right: 5px; /* Adjust as needed */
-}
-
 .wave {
     background: rgb(255, 255, 255);
     border-radius: 1000% 1000% 0 0;
@@ -95,6 +90,7 @@ h1 {
     -webkit-text-fill-color: transparent;
     margin: auto;
 }
+
 h2 {
     font-family: 'Red Hat Display';
     font-size: 200%;
@@ -104,6 +100,15 @@ h2 {
     -webkit-text-fill-color: transparent;
     margin: auto;
 }
+
+h3 {
+    font-family: 'Red Hat Display';
+    font-size: 150%;
+    color: #ffffff;
+    margin: 10px;
+    font-weight: 400;
+}
+
 
 @keyframes typing {
     from {

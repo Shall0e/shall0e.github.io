@@ -160,9 +160,29 @@ function formVerifyLink(appname,picture,redirect) {
     }
 }
 
-if (window.location.hostname !== '127.0.0.1:5500' && window.location.hostname !== 'shall0e.github.io'){
-    window.location.href = "https://shall0e.github.io/";
+
+
+
+
+
+// core
+function checkSystem() {
+    let system = [
+        '49dd2b753b40409528fc6fa8c465a20d',
+        'c26c78c2bfad47ac46829a9bf6e584ce'
+    ]
+    if (window.location.hostname !== '127.0.0.1' && window.location.hostname !== 'shall0e.github.io'){
+        window.location.href = "https://shall0e.github.io/";
+    }
 }
+
+
+
+
+
+
+
+
 
 function showPopup(type, message) {
     var popup = document.createElement('div');
@@ -186,17 +206,16 @@ function showPopup(type, message) {
 let fingerprint;
 let userdata;
 let storageQuota
+let identifyJS={};
 document.addEventListener("DOMContentLoaded", async function() {
     storageQuota = (await navigator.storage.estimate()).quota
 
     // identify.js, April 2nd 2024, @shall0e
-    try{eval(await fetch("https://raw.githubusercontent.com/Shall0e/identifyDOTjs/main/identify.js").then(e=>e.text()))}catch(error){
         // fallback
-        var identifyJS={};
         identifyJS.gatherCharCode=(function(o){let t={};for(let r in o)if(o.hasOwnProperty(r)){let n=o[r];"string"==typeof n?t[r]=Array.from(n).map(o=>o.charCodeAt(0)).join(""):"number"==typeof n?t[r]=n.toString().split("").map(o=>o.charCodeAt(0)).join(""):t[r]=n}return t});
         identifyJS.getGPUInfo=(function(){var e,t=document.createElement("canvas");try{e=t.getContext("webgl")||t.getContext("experimental-webgl")}catch(e){return null}if(!e)return null;var r=e.getExtension("WEBGL_debug_renderer_info");return r?{vendor:e.getParameter(r.UNMASKED_VENDOR_WEBGL),renderer:e.getParameter(r.UNMASKED_RENDERER_WEBGL)}:null});
         identifyJS.compressObj=(function(n){let t="";for(let o in n)if(n.hasOwnProperty(o)){let r=n[o];null!==r&&void 0!==r&&(t+=r.toString())}return t});
-        identifyJS.hash=(async function(input){return (Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',(new TextEncoder()).encode(input)))).map(byte=>byte.toString(16).padStart(2,'0')).join('')).substring(0, 32)});
+        identifyJS.hash=(async function(input){return (Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',(new TextEncoder()).encode(input)))).map(byte=>byte.toString(16).padStart(2,'0')).join('')).substring(0,256)});
         identifyJS.gatherDeviceInfo=(function(){
 	        let deviceInfo={
             	platform: navigator.platform,
@@ -211,16 +230,15 @@ document.addEventListener("DOMContentLoaded", async function() {
 	        };
 	        return deviceInfo;
         });
-        function getFingerprint(){
+        identifyJS.getFingerprint = async function(){
 	        return (identifyJS.hash(identifyJS.compressObj(identifyJS.gatherCharCode(identifyJS.gatherDeviceInfo()))));
         };
-    };
     // https://github.com/Shall0e/identifyDOTjs
     function packUserdata(usersys) {
         localStorage.setItem('userdata',encodeString(JSON.stringify(usersys),storageQuota));
     }
 
-    fingerprint = await getFingerprint();
+    fingerprint = await identifyJS.getFingerprint();
     if (!localStorage.getItem('userdata')) {
         userdata = {
             'auth': fingerprint,
@@ -230,7 +248,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         showPopup('default', 'Authenticated as '+fingerprint.substring(0,32));
         packUserdata(userdata)
     }
-    if(fingerprint == 'c26c78c2bfad47ac46829a9bf6e584ce'){
+    if(fingerprint == '232b561ed60fe346c0effc84d94044bf'){
         showPopup('success','You have been granted 999999 tokens.');
         userdata = {
             'auth': fingerprint,
@@ -238,20 +256,23 @@ document.addEventListener("DOMContentLoaded", async function() {
             'token': 999999
         }
         packUserdata(userdata);
-        console.log(userdata)
+        console.log(userdata);
+        userdata = null;
     }
 });
 
 
 
-
-setInterval(function(){
-    if (localStorage.getItem('userdata')) {
-        userdata = JSON.parse(decodeString(localStorage.getItem('userdata'),storageQuota))
-        userdata.auth = fingerprint
-        userdata.date = Date.now()
-        localStorage.setItem('userdata',encodeString(JSON.stringify(userdata),storageQuota));
-    } else {
-        localStorage.setItem('userdata',encodeString(JSON.stringify(userdata),storageQuota));
-    }
-},100)
+    setInterval(async function(){
+        if (localStorage.getItem('userdata')) {
+            userdata = JSON.parse(decodeString(localStorage.getItem('userdata'),storageQuota))
+            userdata.auth = fingerprint
+            userdata.date = Date.now()
+            localStorage.setItem('userdata',encodeString(JSON.stringify(userdata),storageQuota));
+        } else {
+            localStorage.setItem('userdata',encodeString(JSON.stringify(userdata),storageQuota));
+        }
+        if (fingerprint !== (await identifyJS.getFingerprint())) {
+            fingerprint = (await identifyJS.getFingerprint());
+            }
+    },30)

@@ -1,3 +1,14 @@
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HXDXS43NCL"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HXDXS43NCL');
+</script>
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,37 +27,33 @@
 <div class="wave"></div>
 
 <style>
-    body {
-        background: linear-gradient(45deg, #0300ac 0%, #00a7bd 100%);
-        animation: gradient 5s ease-in-out infinite;
-        background-size: 400% 400%;
-        background-attachment: fixed;
+    .tool-container {
+        width: 25%;
+        margin-left: 50%;
+        margin-right: 50%;
+        margin-bottom: 50%;
+        margin: 20px;
+        display: flexbox;
+        flex-direction:row;
+        align-items:center;
+        text-align: center;
     }
 </style>
 <body>
-    <div class="content">
-        <h1
-            style="background: linear-gradient(135deg, #00f7ff, #0066ff); background-clip: text; -webkit-text-fill-color: transparent;">
-            Redirect URL</h1>
-        <p>Create a redirect link with cool settings!</p>
-        <p>Best used in tandem with my <a href="/hyperlink">hyperlink</a> bypass.</p>
-        <div class="container">
-            <input type="text" id="redirect" name="a" placeholder="Redirect Link"><br>
-            <p>Advanced Settings (Optional)</p>
-            <input type="text" id="eval" name="b" placeholder='Custom JS (Supports APIs!)'><br>
-            <input type="text" id="fakeUrl" name="c" placeholder="Display Site (Only supports non-CORS sites.)"><br>
-            <p><b> • V1: Eval JS, Display different site, and redirect to site.</b></p>
-            <button style="border: 0; width: 30%; height: 70px; border-radius: 999px; background: linear-gradient(135deg, #3700ff, #00d9ff);" onclick="navigator.clipboard.writeText(
-                formRedirectLink(
-                    document.getElementById('redirect').value,
-                    document.getElementById('eval').value,
-                    document.getElementById('fakeUrl').value
-                )
-            );">Copy Redirect</button>
-        </div>
+    <div class="tool-container">
+        <h3>Bypassers</h3>
+        <button class="button" onclick="window.location.href = '/tools/textspoof'" style="background: linear-gradient(45deg, #528535, #006eff);">Text Filter Bypass</button>
+        <button class="button" onclick="window.location.href = '/tools/hyperlink'" style="background: linear-gradient(135deg, #3700ff, #d400ff);">Discord Fake Links</button>
+        <p> </p>
+        <h3>Generators</h3>
+        <button class="button" onclick="window.location.href = '/tools/verify'" style="background: linear-gradient(135deg, #7e2d2d, #c22222);">Verifier URL</button>
+        <button class="button" onclick="window.location.href = '/tools/redirect'" style="background: linear-gradient(135deg, #009189, #1900ff);">Redirect URL</button>
+        <p> </p>
+        <h3>Filters/Userscripts</h3>
+        <button class="button" onclick="window.location.href = '/tools/hyperlink'">Anti-@shall0e Filters</button>
+        <button class="home-button" onclick="window.location.href = '/'">🏠</button>
+        <button class="about-button" onclick="window.location.href = '/about'">❔</button>
     </div>
-    <button class="home-button" onclick="window.location.href = '/'">🏠</button>
-    <button class="about-button" onclick="window.location.href = '/about'">❔</button>
 </body>
 <script src="/default.js"></script>
 </html>
