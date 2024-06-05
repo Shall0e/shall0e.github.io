@@ -123,7 +123,7 @@ function textBypass(str) {
 
 function formRedirectLink(redirectURL,customJS,displayURL) {
     let tempObj = {};
-    if (redirectURL.toLowerCase().includes('://')) {
+    if (redirectURL.includes('://')) {
         let linkTime = Date.now()
         tempObj.url = redirectURL;
         tempObj.js = customJS;
